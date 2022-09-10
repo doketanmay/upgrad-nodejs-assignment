@@ -33,25 +33,17 @@ pipeline {
       }
 
     stage('Deploying Container') {
-        steps {
-            script {
-                echo 'Using remote command over ssh'
-                sshagent(credentials : ['10.0.4.181']){
-                    //sh "sudo ssh -i /var/jenkins_home/upgrad.pem ubuntu@10.0.4.181"
-                    sh "sudo ssh  -o StrictHostKeyChecking=no ubuntu@10.0.4.181 "sudo docker ps -a""
-                    sh "sudo docker ps -a"
-                    //sh '''#!/bin/bash
-                    //    sudo docker stop $(sudo docker ps -a)
-                    //    sudo docker rm $(sudo docker ps -a)
-                    //    sudo docker rmi $(sudo docker images -q)
-                    //    aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
-                    //    sudo docker run -itd $REPOSITORY_URI
-                    //    sudo docker ps
-                    //'''
-                    }                
-                }
+         steps {
+                sh '''#!/bin/bash
+                    sudo ssh -i /var/jenkins_home/upgrad.pem ubuntu@10.0.4.181 << EOF
+                    sudo docker ps 
+                    sudo docker ps -aq | sudo xargs docker stop | sudo xargs docker rm
+                    aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
+                    sudo docker run -itd -p 8080:8080 --env "--prefix=/app" --name apps 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
+                    sudo docker ps
+                '''
             }
         }
-
     }
+
 }
