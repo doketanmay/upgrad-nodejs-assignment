@@ -24,13 +24,31 @@ pipeline {
    
     // Uploading Docker images into AWS ECR
     stage('Pushing image to ECR') {
-     steps{  
+    steps{  
          script {
                 sh "sudo docker tag $IMAGE_TAG $REPOSITORY_URI"
                 sh "sudo docker push $REPOSITORY_URI"
          }
         }
       }
+    }
+
+    stage('Deploying Container') {
+        steps {
+            script {
+                echo 'Using remote command over ssh'
+                sh '''#!/bin/bash
+                ssh -i upgrad.pem ubuntu@10.0.4.181 << ENDSSH
+                sudo docker stop $(sudo docker ps -a)
+                sudo docker rm $(sudo docker ps -a)
+                sudo docker rmi $(sudo docker images -q)
+                aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
+                docker run -itd $REPOSITORY_URI
+                docker ps 
+                ENDSSH
+                '''
+            }
+        }
     }
 
 }
