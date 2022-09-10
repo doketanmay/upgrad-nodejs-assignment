@@ -37,13 +37,16 @@ pipeline {
             script {
                 echo 'Using remote command over ssh'
                 sh '''
-                sudo ssh -i /var/jenkins_home/upgrad.pem ubuntu@10.0.4.181
+                #!/bin/bash
+                sudo ssh -i /var/jenkins_home/upgrad.pem ubuntu@10.0.4.181 << EOF
                 sudo docker stop $(sudo docker ps -a)
                 sudo docker rm $(sudo docker ps -a)
                 sudo docker rmi $(sudo docker images -q)
                 aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
                 sudo docker run -itd $REPOSITORY_URI
-                sudo docker ps 
+                sudo docker ps
+                exit
+                << EOF
                 '''
                 }
             }
