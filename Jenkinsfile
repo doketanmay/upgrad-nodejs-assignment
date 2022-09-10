@@ -8,31 +8,29 @@ pipeline {
     }
    
     stages {
-        
-         stage('Logging into AWS ECR') {
+         stage('AWS ECR Login') {
             steps {
                 script {
                 sh "aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app"
-                }
-                 
+                }                 
             }
         }
         
-      stage('Git checkout and Build') {
+      stage(' Build Image') {
             steps {
                 sh "sudo docker build -t $IMAGE_TAG ."
             }
         }
    
     // Uploading Docker images into AWS ECR
-    stage('Pushing to ECR') {
+    stage('Pushing image to ECR') {
      steps{  
          script {
                 sh "sudo docker tag $IMAGE_TAG $REPOSITORY_URI"
-
                 sh "sudo docker push $REPOSITORY_URI"
          }
         }
       }
     }
+
 }
