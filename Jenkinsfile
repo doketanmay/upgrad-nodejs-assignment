@@ -30,7 +30,7 @@ pipeline {
          script {
                 sh "sudo docker tag $IMAGE_TAG $REPOSITORY_URI"
 
-                sh "sudo docker push $IMAGE_TAG $REPOSITORY_URI"
+                sh "sudo docker push $REPOSITORY_URI"
          }
         }
       }
