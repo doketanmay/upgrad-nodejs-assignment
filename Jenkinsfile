@@ -38,7 +38,7 @@ pipeline {
                 echo 'Using remote command over ssh'
                 sshagent(credentials : ['10.0.4.181']){
                     //sh "sudo ssh -i /var/jenkins_home/upgrad.pem ubuntu@10.0.4.181"
-                    sh "sudo ssh  -o StrictHostKeyChecking=no ubuntu@10.0.4.181 -y"
+                    sh "sudo ssh  -o StrictHostKeyChecking=no ubuntu@10.0.4.181 "sudo docker ps -a""
                     sh "sudo docker ps -a"
                     //sh '''#!/bin/bash
                     //    sudo docker stop $(sudo docker ps -a)
