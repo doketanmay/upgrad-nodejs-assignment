@@ -45,7 +45,7 @@ pipeline {
                         aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
                         sudo docker run -itd $REPOSITORY_URI
                         sudo docker ps
-                    ```
+                    '''
                     }                
                 }
             }
