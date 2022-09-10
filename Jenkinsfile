@@ -38,7 +38,7 @@ pipeline {
                 echo 'Using remote command over ssh'
                 sh '''
                 #!/bin/bash
-                sudo ssh -i /var/jenkins_home/upgrad.pem ubuntu@10.0.4.181 << EOF
+                sudo ssh -tt -i /var/jenkins_home/upgrad.pem ubuntu@10.0.4.181 << EOF
                 sudo docker stop $(sudo docker ps -a)
                 sudo docker rm $(sudo docker ps -a)
                 sudo docker rmi $(sudo docker images -q)
