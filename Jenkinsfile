@@ -26,7 +26,7 @@ pipeline {
     stage('Pushing image to ECR') {
     steps{  
          script {
-                sh "sudo docker tag $IMAGE_TAG $REPOSITORY_URI"
+                sh "sudo docker tag $IMAGE_TAG $REPOSITORY_URI:$BUILD_NUMBER"
                 sh "sudo docker push $REPOSITORY_URI:$BUILD_NUMBER"
          }
         }
