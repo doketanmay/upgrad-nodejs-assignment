@@ -36,19 +36,20 @@ pipeline {
         steps {
             script {
                 echo 'Using remote command over ssh'
-                sshagent(credentials : ['ubuntu']){
+                sshagent(credentials : ['id_name_added_underManageCredential']){
                     sh "sudo docker ps -a"
-                    //sh '''#!/bin/bash
-                    //sudo docker stop $(sudo docker ps -a)
-                    //sudo docker rm $(sudo docker ps -a)
-                    //sudo docker rmi $(sudo docker images -q)
-                    //aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
-                    //sudo docker run -itd $REPOSITORY_URI
-                    //sudo docker ps
-                    //```
+                    sh '''#!/bin/bash
+                        sudo docker stop $(sudo docker ps -a)
+                        sudo docker rm $(sudo docker ps -a)
+                        sudo docker rmi $(sudo docker images -q)
+                        aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
+                        sudo docker run -itd $REPOSITORY_URI
+                        sudo docker ps
+                    ```
                     }                
                 }
             }
         }
-    }      
+
+    }
 }
