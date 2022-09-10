@@ -27,7 +27,7 @@ pipeline {
     steps{  
          script {
                 sh "sudo docker tag $IMAGE_TAG $REPOSITORY_URI"
-                sh "sudo docker push $REPOSITORY_URI"
+                sh "sudo docker push $REPOSITORY_URI:$BUILD_NUMBER"
          }
         }
       }
@@ -39,7 +39,7 @@ pipeline {
                     sudo docker ps 
                     sudo docker ps -aq | sudo xargs docker stop | sudo xargs docker rm
                     aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
-                    sudo docker run -itd -p 8080:8080 --env "--prefix=/app" --name apps 712997521892.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
+                    sudo docker run -itd -p 8080:8080 --env "--prefix=/app" --name apps $REPOSITORY_URI:$BUILD_NUMBER
                     sudo docker ps
                 '''
             }
