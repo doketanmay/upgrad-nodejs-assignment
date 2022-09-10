@@ -37,7 +37,7 @@ pipeline {
             script {
                 echo 'Using remote command over ssh'
                 sh '''#!/bin/bash
-                ssh -i upgrad.pem ubuntu@10.0.4.181 << ENDSSH
+                sudo ssh -i upgrad.pem ubuntu@10.0.4.181 << ENDSSH
                 sudo docker stop $(sudo docker ps -a)
                 sudo docker rm $(sudo docker ps -a)
                 sudo docker rmi $(sudo docker images -q)
