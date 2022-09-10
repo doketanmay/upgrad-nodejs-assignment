@@ -36,7 +36,7 @@ pipeline {
         steps {
             script {
                 echo 'Using remote command over ssh'
-                sshagent(credentials : ['id_name_added_underManageCredential']){
+                sshagent(credentials : ['10.0.4.181']){
                     //sh "sudo ssh -i /var/jenkins_home/upgrad.pem ubuntu@10.0.4.181"
                     sh "sudo ssh  -o StrictHostKeyChecking=no ubuntu@10.0.4.181 -y"
                     sh "sudo docker ps -a"
