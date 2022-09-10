@@ -46,9 +46,9 @@ pipeline {
                     //sudo docker run -itd $REPOSITORY_URI
                     //sudo docker ps
                     //```
-                }                
+                    }                
+                }
             }
         }
-    }
-
+    }      
 }
