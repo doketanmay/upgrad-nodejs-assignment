@@ -31,7 +31,6 @@ pipeline {
          }
         }
       }
-    }
 
     stage('Deploying Container') {
         steps {
@@ -47,6 +46,7 @@ pipeline {
                 docker ps 
                 ENDSSH
                 '''
+                }
             }
         }
     }
